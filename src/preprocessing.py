@@ -6,31 +6,27 @@ from ucimlrepo import fetch_ucirepo
 import os
 
 def load_and_preprocess_data():
-    print("Fetching UCI Heart Disease dataset...")
-    # fetch dataset 
-    heart_disease = fetch_ucirepo(id=45) 
+    print("Loading UCI Heart Disease dataset from local CSV...")
     
-    # data (as pandas dataframes) 
-    X = heart_disease.data.features 
-    y = heart_disease.data.targets 
-
-    # Combine for cleaning
-    df = pd.concat([X, y], axis=1)
+    # Column names based on UCI documentation
+    columns = [
+        'age', 'sex', 'cp', 'trestbps', 'chol', 'fbs', 'restecg', 
+        'thalach', 'exang', 'oldpeak', 'slope', 'ca', 'thal', 'num'
+    ]
+    
+    # Load data, handling '?' as missing values
+    df = pd.read_csv('data/heart_disease.csv', names=columns, na_values='?')
     
     # Check for missing values
     print(f"Initial shape: {df.shape}")
     print("Missing values per column:\n", df.isnull().sum())
     
-    # Simple imputation: Drop rows with missing values for this demo
+    # Simple imputation: Drop rows with missing values
     df = df.dropna()
     print(f"Shape after dropping missing values: {df.shape}")
 
-    # Feature Engineering/Selection
-    # In a real scenario, we might perform more complex encoding for categorical variables.
-    # The UCI dataset mostly has numeric or pre-encoded categories.
-    
-    X = df.drop('num', axis=1) # 'num' is the target in this version (0=no, 1-4=yes)
-    y = (df['num'] > 0).astype(int) # Binary classification: 0 (No) vs 1 (Yes)
+    X = df.drop('num', axis=1) # 'num' is the target (0=no, 1-4=yes)
+    y = (df['num'] > 0).astype(int) # Binary classification
 
     # Split data
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)

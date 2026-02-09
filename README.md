@@ -67,7 +67,19 @@ We evaluate the model using:
 ---
 
 ## How to Run
-1. Install dependencies: `pip install -r requirements.txt`
-2. Run preprocessing: `python src/preprocessing.py`
-3. Train the model: `python src/train.py`
-4. Evaluate: `python src/evaluate.py`
+1. **Install dependencies**:
+   ```bash
+   pip install -r requirements.txt
+   ```
+2. **Setup and Train (Automated)**:
+   ```bash
+   python main.py
+   ```
+   This will clean data, train the model, and generate evaluation reports.
+
+3. **Launch the Web Dashboard**:
+   ```bash
+   streamlit run app.py
+   ```
+   This opens an interactive interface for real-time risk prediction.
+

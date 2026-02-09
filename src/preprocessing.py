@@ -38,12 +38,15 @@ def load_and_preprocess_data():
 
     # Save processed data
     os.makedirs('data', exist_ok=True)
+    import joblib
+    joblib.dump(scaler, 'models/scaler.joblib')
+    
     np.save('data/X_train.npy', X_train_scaled)
     np.save('data/X_test.npy', X_test_scaled)
     np.save('data/y_train.npy', y_train.values)
     np.save('data/y_test.npy', y_test.values)
 
-    print("Data preprocessing complete. Saved to 'data/' folder.")
+    print("Data preprocessing complete. Scaler saved to 'models/scaler.joblib'.")
 
 if __name__ == "__main__":
     load_and_preprocess_data()
